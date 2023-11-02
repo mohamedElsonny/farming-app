@@ -1,0 +1,44 @@
+version: "3.6"
+services:
+  postgres:
+    container_name: postgres-mozare3
+    image: postgres:14-alpine
+    ports:
+      - "3456:5432"
+    volumes:
+      - ~/.docker-conf/postgres:/data/postgres
+    env_file:
+      - docker.env
+    networks:
+      - postgres
+
+  pgadmin:
+    links:
+      - postgres:postgres-mozare3
+    container_name: pgadmin-mozare3
+    image: dpage/pgadmin4
+    ports:
+      - "9870:80"
+    volumes:
+      - ~/.docker-conf/pgadmin:/root/.pgadmin
+    env_file:
+      - docker.env
+    networks:
+      - postgres
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: "rabbitmq"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - rabbitmq_go_net
+
+networks:
+  rabbitmq_go_net:
+    driver: bridge
+  postgres:
+    driver: bridge

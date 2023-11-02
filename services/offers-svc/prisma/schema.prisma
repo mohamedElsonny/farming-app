@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Offer {
+  id              Int              @id @default(autoincrement())
+  ownerId         Int              @map("owner_id")
+  processId       Int
+  process         Process          @relation(fields: [processId], references: [id])
+  owner           User             @relation(fields: [ownerId], references: [id])
+  status          OfferStatusEnum  @default(Pending)
+  offerConditions OfferCondition[]
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+
+  @@map("offers")
+}
+
+enum OfferStatusEnum {
+  Pending
+  Accepted
+  Declined
+  Finished
+
+  @@map("offer_status_enum")
+}
+
+model OfferCondition {
+  id          Int                    @id @default(autoincrement())
+  description String
+  offerId     Int                    @map("offer_id")
+  offer       Offer                  @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  completed   Boolean                @default(false)
+  type        OfferConditionTypeEnum
+  createdAt   DateTime               @default(now()) @map("created_at")
+  updatedAt   DateTime               @updatedAt @map("updated_at")
+
+  @@map("offer_conditions")
+}
+
+enum OfferConditionTypeEnum {
+  Benefit
+  Demand
+}
+
+model User {
+  id        Int       @id
+  name      String
+  type      UserType
+  processes Process[]
+  createdAt DateTime  @map("created_at")
+  updatedAt DateTime  @map("updated_at")
+  offers    Offer[]
+
+  @@map("users")
+}
+
+enum UserType {
+  FARMER
+  PRODUCER
+
+  @@map("user_type_enum")
+}
+
+model Process {
+  id        Int               @id
+  ownerId   Int               @map("owner_id")
+  owner     User              @relation(fields: [ownerId], references: [id])
+  status    ProcessStatusEnum @default(Pending)
+  createdAt DateTime          @map("created_at")
+  updatedAt DateTime          @map("updated_at")
+  offers    Offer[]
+
+  @@map("processes")
+}
+
+enum ProcessStatusEnum {
+  Pending
+  Published
+  InProgress
+  Finished
+
+  @@map("process_status_enum")
+}

@@ -1,0 +1,14 @@
+// exchanges
+export const USER_EXCHANGE = 'USER_EXCHANGE';
+export const PROCESS_EXCHANGE = 'PROCESS_EXCHANGE';
+export const OFFER_EXCHANGE = 'OFFER_EXCHANGE';
+export const EVENT_EXCHANGE = 'EVENT_EXCHANGE';
+
+// messages
+export const USER_CREATED = 'USER_CREATED';
+export const PROCESS_CREATED = 'PROCESS_CREATED';
+export const PROCESS_UPDATED = 'PROCESS_UPDATED';
+export const OFFER_CREATED = 'OFFER_CREATED';
+export const OFFER_UPDATED = 'OFFER_UPDATED';
+export const EVENT_CREATED = 'EVENT_CREATED';
+export const EVENT_RECEIVED = 'EVENT_RECEIVED';
