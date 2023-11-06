@@ -34,7 +34,7 @@ async function handleCreateUserMessage(channel: Channel) {
 
       channel.ack(data);
       await new Promise(s => setTimeout(s, 1000));
-      await sendReceivedEventMessage(message);
+      await sendReceivedEventMessage(channel, message);
     }
   });
 }

@@ -1,17 +1,20 @@
+import { Channel } from 'amqplib';
 import {
   EVENT_CREATED,
   EVENT_EXCHANGE,
   EVENT_RECEIVED,
   SERVICE_NAME,
 } from './constants';
-import { channel } from './rabbitmq';
 
 type EventMessage = {
   type: string;
   data: any;
 };
 
-export async function sendCreateEventMessage(message: EventMessage) {
+export async function sendCreateEventMessage(
+  channel: Channel,
+  message: EventMessage,
+) {
   await channel.assertExchange(EVENT_EXCHANGE, 'fanout', { durable: false });
 
   const m = {
@@ -21,7 +24,10 @@ export async function sendCreateEventMessage(message: EventMessage) {
   channel.publish(EVENT_EXCHANGE, '', Buffer.from(JSON.stringify(m)));
 }
 
-export async function sendReceivedEventMessage(message: EventMessage) {
+export async function sendReceivedEventMessage(
+  channel: Channel,
+  message: EventMessage,
+) {
   await channel.assertExchange(EVENT_EXCHANGE, 'fanout', { durable: false });
 
   const m = {

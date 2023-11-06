@@ -63,7 +63,7 @@ export async function sendCreateOfferMessage(
   };
   channel.publish(OFFER_EXCHANGE, '', Buffer.from(JSON.stringify(message)));
   await new Promise(s => setTimeout(s, 1000));
-  await sendCreateEventMessage(message);
+  await sendCreateEventMessage(channel, message);
 }
 
 export async function sendAcceptOfferMessage(
@@ -92,7 +92,7 @@ export async function sendAcceptOfferMessage(
     },
   };
   channel.publish(OFFER_EXCHANGE, '', Buffer.from(JSON.stringify(message)));
-  await sendCreateEventMessage(message);
+  await sendCreateEventMessage(channel, message);
 }
 
 export async function sendCompleteOfferMessage(
@@ -121,5 +121,5 @@ export async function sendCompleteOfferMessage(
     },
   };
   channel.publish(OFFER_EXCHANGE, '', Buffer.from(JSON.stringify(message)));
-  await sendCreateEventMessage(message);
+  await sendCreateEventMessage(channel, message);
 }

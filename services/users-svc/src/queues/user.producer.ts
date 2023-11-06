@@ -12,5 +12,5 @@ export async function sendCreateUserMessage(user: Omit<User, 'password'>) {
   };
 
   channel.publish(USER_EXCHANGE, '', Buffer.from(JSON.stringify(message)));
-  await sendCreateEventMessage(message);
+  await sendCreateEventMessage(channel, message);
 }

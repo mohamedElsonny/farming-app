@@ -22,7 +22,7 @@ export async function sendCreateProcessMessage(process: Process) {
   };
 
   channel.publish(PROCESS_EXCHANGE, '', Buffer.from(JSON.stringify(message)));
-  await sendCreateEventMessage(message);
+  await sendCreateEventMessage(channel, message);
 }
 
 export async function sendPublishProcessMessage(process: Process) {
@@ -40,5 +40,5 @@ export async function sendPublishProcessMessage(process: Process) {
   };
 
   channel.publish(PROCESS_EXCHANGE, '', Buffer.from(JSON.stringify(message)));
-  await sendCreateEventMessage(message);
+  await sendCreateEventMessage(channel, message);
 }
