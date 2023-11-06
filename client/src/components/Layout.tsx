@@ -15,7 +15,7 @@ export function Layout({ children, isAuthenticated = false }: Props) {
       {isLoading ? (
         <div className="max-w-[80%] m-auto text-center">... Loading!!</div>
       ) : !user && isAuthenticated ? (
-        <Navigate to="/login" />
+        <Navigate to="/signup" />
       ) : (
         <div className="max-w-[80%] m-auto">{children}</div>
       )}
