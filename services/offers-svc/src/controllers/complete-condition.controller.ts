@@ -19,6 +19,9 @@ export async function completeConditionController(
   if (!condition) {
     throw new Error('condition not found');
   }
+  if(condition.offer.status !== 'Accepted') {
+    throw new Error('Offer must be accepted!')
+  }
   if (condition.type === 'Demand') {
     const processOwnerId = condition.offer.process.ownerId;
     if (user.id !== processOwnerId) {
